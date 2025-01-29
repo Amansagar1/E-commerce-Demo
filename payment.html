@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Payment Gateway Form Design using HTML and CSS | Codehal</title>
+    <link rel="stylesheet" href="payment.css">
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="payment-form">
+            <div class="row">
+                <div class="column">
+                    <h3 class="title">Billing Address</h3>
+                    <div class="input-box">
+                        <span>Full Name :</span>
+                        <input type="text" placeholder="Sagar Sharma" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Email :</span>
+                        <input type="email" placeholder="example@example.com" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Address :</span>
+                        <input type="text" placeholder="Room - Street - Locality" required>
+                    </div>
+                    <div class="input-box">
+                        <span>City :</span>
+                        <input type="text" placeholder="bhagalpur" required>
+                    </div>
+
+                    <div class="flex">
+                        <div class="input-box">
+                            <span>State :</span>
+                            <input type="text" placeholder="bihar" required>
+                        </div>
+                        <div class="input-box">
+                            <span>Zip Code :</span>
+                            <input type="number" placeholder="123 456" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <h3 class="title">Payment</h3>
+                    <!-- Payment Method Selection -->
+                    <div class="input-box">
+                        <span>Select Payment Method :</span>
+                        <select id="payment-method" name="payment-method">
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="qr">QR Code</option>
+                        </select>
+                    </div>
+
+                    <!-- Card Payment Details (Visible by default) -->
+                    <div id="card-details">
+                        <div class="input-box">
+                            <span>Cards Accepted :</span>
+                            <img src="imgcards.png" alt="Accepted Cards">
+                        </div>
+                        <div class="input-box">
+                            <span>Name On Card :</span>
+                            <input type="text" placeholder="Mr. Jacob Aiden" required>
+                        </div>
+                        <div class="input-box">
+                            <span>Credit Card Number :</span>
+                            <input type="number" placeholder="1111 2222 3333 4444" required>
+                        </div>
+                        <div class="input-box">
+                            <span>Exp. Month :</span>
+                            <input type="text" placeholder="August" required>
+                        </div>
+                    
+                        <div class="flex">
+                            <div class="input-box">
+                                <span>Exp. Year :</span>
+                                <input type="number" placeholder="2025" required>
+                            </div>
+                            <div class="input-box">
+                                <span>CVV :</span>
+                                <input type="number" placeholder="123" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Payment Details (Hidden by default) -->
+                    <div id="qr-details" style="display:none;">
+                        <div class="input-box">
+                            <span>Scan QR Code to Pay</span>
+                            <img src="qr-placeholder.png" alt="QR Code" style="width: 200px; height: 200px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Submit</button>
+        </form>
+    </div>
+
+    <!-- Add the Order Confirmation Section Here -->
+    <div id="order-placed-section" style="display:none;">
+        <div>
+            <i class="fas fa-check-circle"><div id="click-animation"></div></i>
+            <h3>Order Placed Successfully!!</h3>
+            <p>We have sent you an email with the order details.</p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Switch payment method details based on the selected option
+            $('#payment-method').change(function () {
+                var paymentMethod = $(this).val();
+                if (paymentMethod === 'card') {
+                    $('#card-details').show();
+                    $('#qr-details').hide();
+                } else if (paymentMethod === 'qr') {
+                    $('#card-details').hide();
+                    $('#qr-details').show();
+                }
+            });
+
+            // Handle form submission
+            $('#payment-form').submit(function(e) {
+                e.preventDefault(); // Prevent form submission and page reload
+
+                // Show order confirmation message
+                $('#order-placed-section').show();
+                // Hide the form and billing section
+                $('.container').hide();
+
+                // Optionally clear cart items from localStorage if needed
+                localStorage.removeItem('cartItems');
+                alert('Cart has been cleared.');
+
+                // After 5 seconds, redirect to index.html
+                setTimeout(function() {
+                    window.location.href = "index.html";  // Redirect to index.html
+                }, 5000); // 5000 ms = 5 seconds
+            });
+        });
+    </script>
+
+</body>
+
+</html>
